@@ -35,7 +35,7 @@ export default function Login() {
         <Text className="text-gray-100 mb-8">Login to continue</Text>
 
         <TextInput 
-         className="border-gray-300 border-3 rounded-lg p-2 mb-4"
+         className="border border-gray-300 rounded-lg p-2 mb-4 w-full max-w-md"
          placeholder='E-mail'
          value={email}
          onChangeText={setEmail}
@@ -43,7 +43,8 @@ export default function Login() {
          autoCapitalize="none"
          />
         
-        <TextInput className="border-gray-300 border-3 rounded-lg p-2 mb-4"
+        <TextInput 
+         className="border border-gray-300 rounded-lg p-2 mb-4 w-full max-w-md"
          placeholder="password"
          value={password}
          onChangeText={setPassword}
