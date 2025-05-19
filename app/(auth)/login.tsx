@@ -10,5 +10,24 @@ export default function Login() {
     const { signIn } = useAuth();
     const router = useRouter();
 
+    const handleLogin = async () => {
+        if (!email || !password) {
+            Alert.alert('please fill all fields');
+            return:
+        }
 
+        setLoading(true);
+
+        try{
+            await signIn(email, password);
+
+        } catch (error: any) {
+            Alert.alert('Login Failed', error.message);
+
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    
 }
