@@ -78,6 +78,20 @@ export function AuthProvider({ children }: { children: React.ReactNode}) {
             displayName,
             createdAt: new Date(),
         };
-    }
-    })
+
+        await setDoc(doc(db, "users", userCredential.user.uid), userData);
+    };
+
+    const logout = async () => {
+        await signOut(auth);
+    };
+
+    return (
+        <AuthContext.Provider value={{ user, userData, loading, signIn, signUp, logout }}>
+            {children}
+            </AuthContext.Provider>
+    );
+   }
+   export function useAuth() {
+    return useContext(AuthContext);
 }
