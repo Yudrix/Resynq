@@ -40,4 +40,44 @@ export function AuthProvider({ children }: { children: React.ReactNode}) {
     const [user, setUser] = useState<User | null>(null);
     const [userData, setUserData] = useState<UserData | null>(null);
     const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+            setUser(currentUser);
+
+            if (currentUser) {
+                //getting db data
+                const userRef = doc(db, "users", currentUser.uid);
+                const userSnap = await getDoc(userRef);
+
+                if (userSnap.exists()) {
+                    setUserData(userSnap.data() as UserData);
+
+                }
+
+            } else {
+                setUserData(null);
+            }
+
+            setLoading(false);
+        });
+
+        return unsubscribe;
+    }, []); // <--- Why did I have to do that? So random
+
+    const signIn = async (email: string, password: string) => {
+        await signInWithEmailAndPassword(auth, email, password);
+    };
+
+    const signUp = async (email: string, password: string, displayName: string) => {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        
+        //addition userdata to db
+        const userData = {
+            email,
+            displayName,
+            createdAt: new Date(),
+        };
+    }
+    })
 }
