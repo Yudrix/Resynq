@@ -32,7 +32,7 @@ export default function Login() {
     return (
        <View className="flex-1 justify-center items-center bg-white">
         <Text className="text-3xl font-bold mb-4">Namaste, welcome back!</Text>
-        <Text className="text-gray-100 mb-8">Login to continue</Text>
+        <Text className="text-gray-600 mb-8">Login to continue</Text>
 
         <TextInput 
          className="border border-gray-300 rounded-lg p-2 mb-4 w-full max-w-md"
