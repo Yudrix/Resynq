@@ -13,19 +13,19 @@ export default function Register() {
 
     const handleRegister = async () => {
         if (!name || !email || !password) {
-            Alert.alert('All fiels are required');
+            Alert.alert('All fields are required');
             return;
         }
 
         if (password.length < 6) {
-            Alert.alert('Password must be at least 6 charachters long');
+            Alert.alert('Password must be at least 6 characters long');
             return;
         }
 
         setLoading(true);
 
         try {
-          await signUp(name, email, password);
+          await signUp(email, password, name);
 
         } catch (error: any) {
             Alert.alert('Registration failed', error.message);
@@ -50,6 +50,7 @@ export default function Register() {
             <TextInput
                 className="border border-gray-300 rounded-lg p-2 mb-4 w-full max-w-md"
                 placeholder="Email"
+                value={email}
                 onChangeText={setEmail}
                 keyboardType="email-address"
                 autoCapitalize="none"
