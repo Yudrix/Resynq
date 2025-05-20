@@ -1,12 +1,47 @@
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { Link } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { Drawer } from 'expo-router/drawer';
+import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
+import { TouchableOpacity, Text } from 'react-native';
+import { useAuth } from '../../context/auth';
 
 import { HeaderButton } from '../../components/HeaderButton';
 
+function CustomDrawerContent(props) {
+  const { logout } = useAuth();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await logout();
+    router.replace('/');
+  };
+
+  return (
+    <DrawerContentScrollView {...props}>
+      <DrawerItemList {...props} />
+
+      <TouchableOpacity
+        style={{
+          marginTop: 20,
+          marginHorizontal: 16,
+          backgroundColor: '#f87171',
+          padding: 12,
+          borderRadius: 8,
+        }}
+        onPress={handleLogout}>
+          <Text style={{ color: '#fff', fontWeight: 'bold', textAlign: 'center'}}>
+            Log Out
+          </Text>
+        </TouchableOpacity>
+    </DrawerContentScrollView>
+  );
+}
+
 const DrawerLayout = () => {
   return (
-    <Drawer>
+    <Drawer
+      drawerContent={(props) => <CustomDrawerContent {...props}/>}
+      >
       <Drawer.Screen
         name="index"
         options={{
