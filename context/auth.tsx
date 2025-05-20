@@ -8,13 +8,13 @@ import {
     signOut,
     onAuthStateChanged
 } from 'firebase/auth';
-import { auth } from '../utils/firebase';
+import { auth, db } from '../utils/firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore'; // I'm not the best at Auth and backend so I like to follow tutorials for it, no need to remind me about it
 
-type Userdata = {
+type UserData = {
     email: string;
     displayName: string;
-    craetedAt: Date;
+    createdAt: Date;
 
 }
 
@@ -66,7 +66,17 @@ export function AuthProvider({ children }: { children: React.ReactNode}) {
     }, []); // <--- Why did I have to do that? So random
 
     const signIn = async (email: string, password: string) => {
-        await signInWithEmailAndPassword(auth, email, password);
+        
+        console.log('signing in with:', email);
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+            console.log('sign in successful');
+
+        } catch (error: any) {
+            console.error('sign in failed', error.code, error.message);
+            throw error;
+        }
+
     };
 
     const signUp = async (email: string, password: string, displayName: string) => {
