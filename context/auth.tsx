@@ -6,10 +6,53 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     signOut,
-    onAuthStateChanged
+    onAuthStateChanged,
+    GoogleAuthProvider,
+    signInWithPopup
 } from 'firebase/auth';
 import { auth, db } from '../utils/firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore'; // I'm not the best at Auth and backend so I like to follow tutorials for it, no need to remind me about it
+
+const signInWithGoogle = async () => {
+    try{
+        const provider = new GoogleAuthProvider();
+        const userCredential = await signInWithPopup(auth, provider);
+
+        const userRef = doc(db, "users", userCredential.user.uid);
+        const userSnap = await getDoc(userRef);
+
+        if (!userSnap.exists()) {
+            const userData = {
+                email: userCredential.user.email,
+                displayName: userCredential.user.displayName || 'User',
+                createdAt: new Date (),
+                photoURL: userCredential.user.photoURL || null
+
+            };
+
+            await setDoc(userRef, userData);
+        }
+
+        console.log("Google sign in succesful");
+
+    } catch (error) {
+        console.error("Google sign in error:", error);
+        throw error;
+    }
+};
+
+<AuthContext.Provider value={{
+    user,
+    userData,
+    loading,
+    signIn,
+    signUp,
+    logout,
+    signInWithGoogle
+}}>
+    {children}
+    
+</AuthContext.Provider>
 
 type UserData = {
     email: string;
