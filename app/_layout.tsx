@@ -21,15 +21,16 @@ function AuthGuard({ children }: { children: React.ReactNode }) {
 
     const inAuthGroup = segments[0] === '(auth)';
     const inDrawerGroup = segments[0] === '(drawer)';
+    const isRootPage = segments.length === 0 || (segments.length === 1 && segments[0] === '');
 
-    console.log('Auth state:', { user: !!user, inAuthGroup, segments });
+    console.log('Auth state:', { user: !!user, inAuthGroup, segments, path: segments.join('/') });
 
     if (!user) {
       if (inDrawerGroup) {
         router.replace('/');
       }
     } else {
-      if (inAuthGroup || segments.length === 0 || segments[0] === '') {
+      if (inAuthGroup || isRootPage) {
         router.replace('/(drawer)/(tabs)');
       }
     }
