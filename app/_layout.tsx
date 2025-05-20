@@ -19,17 +19,39 @@ function AuthGuard({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (loading) return;
 
-    const inAuthGroup
-  })
+    const inAuthGroup = segments[0] === '(auth)';
+
+    if (!user && !inAuthGroup && segments[0] !== '') {
+      router.replace('/');
+
+    } else if (user && (inAuthGroup || segments[0] === '')) {
+      router.replace('/(drawer)/(tabs)');
+    }
+  }, [user, loading, segments]);
+
+  if (loading) {
+    return (
+      <View className="flex-1 items-center justify-center">
+        <ActivityIndicator size="large" color="#4299e1" />
+      </View>
+    );
+  }
+  return <>{children}</>;
 }
 
 export default function RootLayout() {
   return (
+    <AuthProvider>
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <Stack>
+      <AuthGuard>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="index" />
+        <Stack.Screen name="(auth)" />
         <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ title: 'Modal', presentation: 'modal' }} />
       </Stack>
+      </AuthGuard>
     </GestureHandlerRootView>
+    </AuthProvider>
   );
 }
