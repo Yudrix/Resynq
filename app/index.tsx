@@ -1,10 +1,10 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Image } from "react-native";
 import { useRouter } from "expo-router";
 import { useAuth } from "../context/auth";
 
 export default function MainLandingPage() {
     const router = useRouter();
-    comst { signInWithGoogle } = useAuth();
+    const { signInWithGoogle } = useAuth();
 
     const handleGoogleSignIn = async () => {
         try {
@@ -34,7 +34,7 @@ export default function MainLandingPage() {
 
                 <TouchableOpacity className="bg-white border border-gray-300 rounded-xl py-3 px-4 items-center justify-center self-center max-w-md w-full flex-row"
                 onPress={handleGoogleSignIn}>
-                    <Image source="./assets/google(1).png" style={{ width: 24, height: 24, marginRight: 8 }}
+                    <Image source={require('./assets/google(1).png')} style={{ width: 24, height: 24, marginRight: 8 }}
                     />
                     <Text className="text-gray-700 font-bold text-lg">Continue with Google</Text>
                 </TouchableOpacity>

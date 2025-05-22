@@ -1,4 +1,4 @@
-// If you are reading this file, as you can see it's makeshift and not made to last. I am following an auth tutorial if you are wondering about the cleanliness of my code :)
+// If you are reading this file, as you can see it's quite makeshift and not made to last. I am following an auth tutorial if you are wondering about the cleanliness of my code :)
 //I made a LOT of errors in this file, camelCase is so annoying. This the reason it took 6 hours for just Auth lol
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { 
