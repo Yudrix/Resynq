@@ -14,8 +14,24 @@ export function FirebaseInitializer({ children }: { children: React.ReactNode })
                 if (auth) {
                     console.log("Firebase Auth is initialized succesfully");
                     setIsReady(true);
-                } else {}
+                } else {
+                    setError("Auth is not functioning");
+                }
+            } catch (error: any) {
+                console.error("Firebase initialization error:", error);
+                setError("error.message");
             }
-        }
-    })
+        };
+        initialize();
+    }, []);
+     
+    if (error) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <Text style={{ color: 'red' }}>Firebase error</Text>
+            </View>
+        );
+    }
+
+    return <>{children}</>
 }
