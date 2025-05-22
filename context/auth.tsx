@@ -12,6 +12,7 @@ import {
 } from 'firebase/auth';
 import { auth, db } from '../utils/firebase';
 import { doc, setDoc, getDoc } from 'firebase/firestore'; // I'm not the best at Auth and backend so I like to follow tutorials for it, no need to remind me about it
+import { Platform } from 'react-native';
 
 type UserData = {
     email: string;
@@ -101,6 +102,8 @@ export function AuthProvider({ children }: { children: React.ReactNode}) {
 
    const signInWithGoogle = async () => {
         try {
+            if (Platform.OS === 'web') {
+
             const provider = new GoogleAuthProvider();
             const userCredential = await signInWithPopup(auth, provider);
 
@@ -119,11 +122,13 @@ export function AuthProvider({ children }: { children: React.ReactNode}) {
             }
 
             console.log("Google sign in successful");
-
-        } catch (error) {
-            console.error("Google sign in failed", error);
-            throw error;
-        }
+      } else {
+        alert("Google sign in mobile is coming soon! Please use email sign in for now.");
+       // router.push("/(auth)/login");
+      }
+    } catch (error) {
+        console.error("Google sign in error:", error);
+    }
    };
 
    return (
