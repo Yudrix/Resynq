@@ -5,6 +5,7 @@ import { useRouter, useSegments } from 'expo-router';
 import { ActivityIndicator, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Stack } from 'expo-router';
+import { FirebaseInitializer } from '../components/FirebaseInitializer';
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
@@ -48,17 +49,19 @@ function AuthGuard({ children }: { children: React.ReactNode }) {
 
 export default function RootLayout() {
   return (
-    <AuthProvider>
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <AuthGuard>
-      <Stack screenOptions={{ headerShown: false }}>
+    <FirebaseInitializer>
+     <AuthProvider>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+       <AuthGuard>
+        <Stack screenOptions={{ headerShown: false }}>
         <Stack.Screen name="index" />
-        <Stack.Screen name="(auth)" />
-        <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ title: 'Modal', presentation: 'modal' }} />
-      </Stack>
+         <Stack.Screen name="(auth)" />
+         <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
+         <Stack.Screen name="modal" options={{ title: 'Modal', presentation: 'modal' }} />
+       </Stack>
       </AuthGuard>
     </GestureHandlerRootView>
-    </AuthProvider>
+   </AuthProvider>
+  </FirebaseInitializer>
   );
 }
