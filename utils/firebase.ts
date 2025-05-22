@@ -1,7 +1,11 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { getAuth,
+         initializeAuth,
+         getReactNativePersistence
+ } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
-
+import { Platform } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // Optionally import the services that you want to use
 // import {...} from "firebase/auth";
 // import {...} from "firebase/database";
@@ -20,11 +24,27 @@ const firebaseConfig = {
   measurementId: process.env.EXPO_PUBLIC_MEASUREMENT_ID,
 };
 
-const firebase = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 // For more information on how to access Firebase in your project,
 // see the Firebase documentation: https://firebase.google.com/docs/web/setup#access-firebase
 
-export const auth = getAuth(firebase);
-export const db = getFirestore(firebase);
-export default firebase;
+let auth;
+try {
+  if (Platform.OS === 'web') {
+  console.log("Initialising web auth xd");
+  auth = getAuth(app);
+  
+  } else {
+    auth = initializeAuth(app, {
+      persistence: getReactNativePersistence(AsyncStorage)
+    });
+  }
+} catch (error) {
+  console.error("Error initialising Firebase auth", error);
+  auth = getAuth(app);
+}
 
+
+const db = getFirestore(app);
+
+export { auth, db };
