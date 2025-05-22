@@ -34,7 +34,7 @@ export default function MainLandingPage() {
 
                 <TouchableOpacity className="bg-white border border-gray-300 rounded-xl py-3 px-4 items-center justify-center self-center max-w-md w-full flex-row"
                 onPress={handleGoogleSignIn}>
-                    <Image source={require('./assets/google(1).png')} style={{ width: 24, height: 24, marginRight: 8 }}
+                <Image source={{uri: 'https://cdn-icons-png.flaticon.com/512/2991/2991148.png'}} style={{ width: 24, height: 24, marginRight: 8 }}
                     />
                     <Text className="text-gray-700 font-bold text-lg">Continue with Google</Text>
                 </TouchableOpacity>
