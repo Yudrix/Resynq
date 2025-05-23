@@ -169,9 +169,97 @@ export default function TasksScreen() {
                                 </View>
                               </View>
                             </TouchableOpacity>
+
+                            <TouchableOpacity onPress={() => deleteTask(item.id)} className="p-2">
+                                <Ionicons name="trash-outline" size={20} color=" #F43F5E" />
+                            </TouchableOpacity>
                         </View>  
                     </View>    
-                }
+                   )}
+                  />
+                  
+                  {!showAddTask && (
+                  <TouchableOpacity 
+                    className="absolute right-6 bottom-6 bg-blue-500 w-14 h-14 rounded-full items-center justify-center shadow-md"
+                    onPress={() = setShowAddTask(true)} >
+                        <Ionicons name="add" size={30} color="white" />
+                    </TouchableOpacity> )}
+
+                    {showAddTask && (
+                        <View className="absolute bottom-0 left-0 right-0 bg-white p-4 rounded-t-xl shadow-lg"
+                        style={{ paddingBottom: insets.bottom > 0 ? insets.bottom : 16 }}>
+                         <View className="flex-row justify-between items-center mb-4">
+                            <Text className="text-xl font-bold">Add New Task</Text>
+                            <TouchableOpacity onPress={() => setShowAddTask(false)} className="p-2">
+                             <Ionicons name="close" size={24} color=" #666" />   
+                            </TouchableOpacity>
+                         </View>
+
+                         <TextInput
+                            className="border border-gray-300 rounded-lg p-3 mb-3"
+                            placeholder="Description (optional)"
+                            multilinenumberOfLines={2}
+                            value={newTask.description}
+                            onChangeText={(text) => setNewTask({..newTask, description: text})} />
+
+                         <TouchableOpacity
+                          className="border border-gray-300 rounded-lg p-3 mb-3 flex-row items-center justify-between"
+                          onPress={() => setShowDatePicker(true)} >
+                            
+                            <Text className={newTask.dueDate ? "text-black" : "text-gray-500"}>
+                               {formatDate(newTask.duedate)} 
+                            </Text>
+                            <Ionicons name="calendar-outline" size={20} color=" #666" />
+                            </TouchableOpacity>   
+
+                            {showDatePicker && (
+                                <DateTimePicker
+                                    value={newTask.dueDate}
+                                    mode="date"
+                                    display="default"
+                                    onChange={onDateChange} />
+                            )}
+                            
+                             <View className="mb-3">
+                                <Text className="font-semibold mb-2">Priority</Text>
+                                <View className="flex-row space-x-2">
+                                    {['Urgent and important', 'Not urgent but important', 'Not urgent and fast', 'Urgent and important', 'Upcoming event', 'Important but not urgent'].map((priority) => (
+                                        <TouchableOpacity
+                                            key={priority}
+                                            className={`flex-1 py-2 rounded-lg items-center ${
+                                                newTask.priority === priority ?
+                                                (priority == 'Urgent and important' ? 'bg-red-100' :
+                                                 priority == 'Not urgent but important' ? 'bg-yellow-100' :
+                                                 priority == 'Not urgent and fast' ? 'bg-green-100' :
+                                                 priority == 'Upcoming event' ? 'bg-blue-100' :
+                                                 priority == 'Important but not urgent' ? 'bg-purple-100') :
+                                                 'bg-gray-100'
+                                             }}
+                                             onPress={() => setNewTask({...newTask, priority: priority as 'Urgent and important' | 'Not urgent but important' | 'Not urgent and fast' | 'Upcoming event' | 'Important but not urgent'})}
+                                             >
+                                             <Text className={`
+                                                ${newTask.priority === priority ?
+                                                    (priority == 'Urgent and important' ? 'text-red-800' :
+                                                 priority == 'Not urgent and fast' ? 'text-green-800' :
+                                                 priority == 'Not urgent but important' ? 'text-yellow-800' :
+                                                    priority == 'Upcoming event' ? 'text-blue-800' :
+                                                    priority == 'Important but not urgent' ? 'text-purple-800' : 
+                                                    'text-gray-800') :
+                                                }
+                                            }`}>
+                                                {setPriority.charAt(0).toUpperCase() + setPriority.slice(1)}
+                                                </Text>
+                                        </TouchableOpacity>
+                                             
+                                    ))}
+                                </View>
+                             </View>
+
+                             
+                        </View>
+                    )}
+
+                  
         
     )
 }
