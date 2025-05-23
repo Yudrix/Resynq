@@ -66,8 +66,60 @@ export default function TasksScreen() {
             });
 
             setNewTask({
-                
-            })
+                title: '',
+                description: '',
+                dueDate: new Date(),
+                priority: 'Urgent and important',
+                category: '',
+            });
+            setShowAddTask(false);
+        } catch (error) {
+            console.error('Error adding task:', error);
         }
+    };
+
+    const toggleTaskComplete = async (taskId: string, completed: boolean) => {
+        try {
+            await updateDoc(doc(db, 'tasks', taskId), {
+                completed: !completed
+            });
+        } catch (error) {
+            console.error('error updating task:', error);
+        }
+    };
+
+    const deleteTask = async (taskId: string) => {
+        try {
+            await deleteDoc(doc(db, 'tasks', taskId));
+        } catch (error) {
+            console.error('error deleting task:', error);
+        }
+    };
+
+    const formatDate = (date: Date) => {
+        return date.toLocaleDateString('en-IN' , {
+            month: 'short',
+            day: 'numeric',
+            year: 'numeric',
+        });
+    };
+
+    const onDateChange = (event: any, selectedDate: Date) => {
+        setShowDatePicker(false);
+        if (selectedDate) {
+            setNewTask({...newTask, dueDate: selectedDate});
+        }
+    };
+
+    if (loading) {
+        return (
+            <View className="flex-1 justify-center items-center">
+                <ActivityIndicator size="large" color="rgb(28, 28, 92)" />
+            </View>
+        );
     }
+
+    return (
+        //All container views or Ui for tasks
+    )
 }
