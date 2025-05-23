@@ -65,3 +65,4 @@ export default function RootLayout() {
   </FirebaseInitializer>
   );
 }
+export default RootLayout;

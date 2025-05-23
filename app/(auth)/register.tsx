@@ -85,4 +85,5 @@ export default function Register() {
         </View>
 
    );
-} 
+}
+export default Register;

@@ -42,3 +42,4 @@ export default function MainLandingPage() {
         </View>
     );
 }
+export default MainLandingPage;

@@ -69,6 +69,6 @@ const DrawerLayout = () => {
       />
     </Drawer>
   );
-};
+}
 
 export default DrawerLayout;

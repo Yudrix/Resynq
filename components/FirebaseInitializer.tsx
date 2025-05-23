@@ -7,7 +7,7 @@ export function FirebaseInitializer({ children }: { children: React.ReactNode })
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const intializer = async () => {
+        const initializer = async () => {
             try {
                 await new Promise(resolve => setTimeout(resolve, 500));
 
@@ -19,10 +19,12 @@ export function FirebaseInitializer({ children }: { children: React.ReactNode })
                 }
             } catch (error: any) {
                 console.error("Firebase initialization error:", error);
-                setError("error.message");
+                console.error("Error code:", error.code);
+                console.error("Error message:", error.message);
+                setError(error.message || "Unknown error");
             }
         };
-        initialize();
+        initializer();
     }, []);
      
     if (error) {
@@ -31,6 +33,15 @@ export function FirebaseInitializer({ children }: { children: React.ReactNode })
                 <Text style={{ color: 'red' }}>Firebase error</Text>
             </View>
         );
+    }
+
+    if (!isReady) {
+        return (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                <ActivityIndicator size="large" color=" #0000ff" />
+                <Text>Loading</Text>
+            </View>
+        )
     }
 
     return <>{children}</>

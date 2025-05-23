@@ -70,3 +70,4 @@ export default function Login() {
          </View> 
     )
 }
+export default Login;
