@@ -121,5 +121,30 @@ export default function TasksScreen() {
 
     return (
         //All container views or Ui for tasks
+        <View className="flex-1 bg-white" style={{ paddingTop: insets.top}}>
+            <View className="px-4 py-6">
+                <Text className="text-2xl font-bold mb-2">Tasks</Text>
+                <Text className="textgray-600 mb-4">Manage your scheduled tasks with ease</Text>
+            </View>
+
+            <FlatList
+                data={tasks}
+                keyExtractor:{(item) => item.id}
+                className="px-4"
+                ListEmptyComponent={
+                    <View className={`mb-3 p-4 rounded-lg border ${item.completed ? 'bg-gray-100 border-gray-200' : 'bg-white border-gray-300'}`}>
+                      <View className="flex-row justify-between items-center">
+                        <TouchableOpacity
+                            onPress={() => toggleTaskComplete(item.id, item.completed)}
+                            className="flex-row items-center flex-1"
+                            >
+                                <View className={`w-4 h-6 rounded-full border mr-3 items-center justify-center ${item.completed ? 'bg-blue-500 border-blue-500' : 'border-gray-400'}`}>
+                                    {item.completed && <Ionicons name="checkmark" size={16} color="white" />}
+                                </View>
+                            </TouchableOpacity>
+                        </View>  
+                    </View>    
+                }
+        
     )
 }
