@@ -139,8 +139,35 @@ export default function TasksScreen() {
                             className="flex-row items-center flex-1"
                             >
                                 <View className={`w-4 h-6 rounded-full border mr-3 items-center justify-center ${item.completed ? 'bg-blue-500 border-blue-500' : 'border-gray-400'}`}>
-                                    {item.completed && <Ionicons name="checkmark" size={16} color="white" />}
+                                    {item.completed && <Ionicons name="checkmark" size={16} color="black" />}
+
                                 </View>
+                                <View className="flex-1">
+                                    <Text className={`font-semibold ${item.completed ? 'text-gray-500 line-through' : 'text-gray-800'}`}>
+                                        {item.title}
+                                    </Text>
+                                    {item.description ? (
+                                        <Text className={`text-sm mt-1 ${item.completed ? 'text-gray-500' : 'text-gray-600'}`}>
+                                            {item.description}
+                                        </Text>
+                                    ) : null}
+                                    <View className="flex-row items-center mt-2">
+                                        <Ionicons name="calendar-outline" size={14} color=" #666" />
+                                        <Text className="text-xs text-gray-500 ml-1">{formatDate(item.dueDate)}</Text>
+                                    
+                                        <View className={`ml-2 px-2 py-0.5 rounded-full ${
+                                            item.priority === 'Urgent and important' ? 'bg-red-100 text-red-800' :
+                                            item.priority === 'Not urgent but important' ? 'bg-yellow-100 text-yellow-800' :
+                                            item.priority === 'Not urgent and fast' ? 'bg-green-100 text-green-800' :
+                                            item.priority === 'Upcoming event' ? 'bg-blue-100 text-blue-800' :
+                                            item.priority === 'Important but not urgent' ? 'bg-purple-100 text-purple-800' : ''
+                                        }`}>
+                                            <Text className="text-xs font-semibold">
+                                                {item.priority}
+                                            </Text>
+                                    </View>
+                                </View>
+                              </View>
                             </TouchableOpacity>
                         </View>  
                     </View>    
